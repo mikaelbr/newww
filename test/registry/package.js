@@ -98,6 +98,11 @@ describe('Modifying the package before sending to the template', function () {
     done()
   });
 
+  it('allows internal anchor links', function (done) {
+    expect(p.readme).to.include('href="#hash-link"')
+    done();
+  });
+
   it('turns relative URLs into real URLs', function (done) {
     expect(p.readme).to.include('/blob/master')
     done();

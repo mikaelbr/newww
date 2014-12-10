@@ -110,7 +110,9 @@ module.exports = function package (data, cb) {
 function urlPolicy (pkgData) {
   var gh = pkgData && pkgData.repository ? ghurl(pkgData.repository.url) : null
   return function (u, effect, ltype, hints) {
-    if (u.scheme_ === null && u.domain_ === null) {
+    if (u.scheme_ === null && u.domain_ === null && u.path_ === null) {
+      u = { hash: u.fragment_ }
+    } else if (u.scheme_ === null && u.domain_ === null) {
       if (!gh) return null
       // temporary fix for relative links in github readmes, until a more general fix is needed
       var v = url.parse(gh)
