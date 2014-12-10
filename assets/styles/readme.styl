@@ -47,6 +47,20 @@
   pre
     overflow-x auto
 
+  h2,h3,h4,h5
+    position relative
+    &:hover .package-header-link
+      visibility visible
+
+  .package-header-link
+    position absolute
+    padding 0 10px
+    left -30px
+    text-decoration none
+    visibility hidden
+    i
+      font-size 0.7em
+
   .superfluous
     display none
 

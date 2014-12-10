@@ -10,6 +10,17 @@ var marked = require('marked'),
     cheerio = require('cheerio'),
     log = require('bole')('registry-package-presenter');
 
+var renderer = new marked.Renderer();
+var heading = renderer.heading;
+renderer.heading = function(text, level, raw) {
+  var slug = raw.toLowerCase().replace(/[^\w]+/g, '-'),
+      h = heading.call(this, text, level, raw),
+      closingTag = '</h' + level + '>',
+      link = '<a href="#' + slug + '" class="package-header-link"><i class="icon-website"></i></a>';
+
+  return h.replace(closingTag, link + closingTag);
+};
+
 module.exports = function package (data, cb) {
 
   if (data.time && data['dist-tags']) {
@@ -158,7 +169,7 @@ function parseReadme (data, cb) {
       (data.readmeFilename.match(/\.(m?a?r?k?d?o?w?n?)$/i) &&
        !data.readmeFilename.match(/\.$/))) {
     try {
-      p = marked.parse(data.readme);
+      p = marked.parse(data.readme, {renderer: renderer});
     } catch (er) {
       return cb(new Error('error parsing readme'));
     }

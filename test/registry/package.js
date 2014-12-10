@@ -108,6 +108,11 @@ describe('Modifying the package before sending to the template', function () {
     done();
   });
 
+  it('adds anchor links to headings', function (done) {
+    expect(p.readme).to.include('class="package-header-link"')
+    done();
+  });
+
   it('includes the dependencies', function (done) {
     expect(p.dependencies).to.exist
     done();
