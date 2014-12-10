@@ -11,14 +11,12 @@ var marked = require('marked'),
     log = require('bole')('registry-package-presenter');
 
 var renderer = new marked.Renderer();
-var heading = renderer.heading;
 renderer.heading = function(text, level, raw) {
   var slug = raw.toLowerCase().replace(/[^\w]+/g, '-'),
-      h = heading.call(this, text, level, raw),
-      closingTag = '</h' + level + '>',
       link = '<a href="#' + slug + '" class="package-header-link"><i class="icon-website"></i></a>';
 
-  return h.replace(closingTag, link + closingTag);
+  return '<h' + level + ' id="' + this.options.headerPrefix + slug + '">' +
+                text + link + '</h' + level + '>\n';
 };
 
 module.exports = function package (data, cb) {
